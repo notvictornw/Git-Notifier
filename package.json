@@ -23,7 +23,7 @@
     "dev": "nodemon index.js",
     "build:worker": "esbuild worker/index.js --bundle --format=esm --platform=browser --target=es2022 --outfile=dist/worker.js",
     "check": "node --check index.js && node --check src/app.js && node --check src/cli.js",
-    "test": "node --test --test-isolation=none",
+    "test": "node --test",
     "health": "node src/cli.js health",
     "digest": "node src/cli.js digest",
     "digest:send": "node src/cli.js digest --send"

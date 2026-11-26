@@ -1,0 +1,51 @@
+server:
+  port: 3000
+
+github:
+  # Required: webhook signature verification secret (must match GitHub webhook secret)
+  secret: "change-me-webhook-secret"
+
+  # Optional: GitHub API access for enrichment, digest, and health dashboard.
+  # Use either a PAT (token) OR a GitHub App installation.
+  token: "" # PAT / fine-grained token with repo read access
+  # apiBase: "https://api.github.com"
+  # graphqlUrl: "https://api.github.com/graphql"
+
+  # GitHub App (alternative to token)
+  # app:
+  #   appId: "123456"
+  #   installationId: "12345678"
+  #   privateKeyPath: "./private-key.pem"
+  #   # or privateKey: "-----BEGIN RSA PRIVATE KEY-----\n...\n-----END RSA PRIVATE KEY-----"
+
+# Optional Telegram notifications (digest + event summaries)
+telegram:
+  botToken: "" # TELEGRAM_BOT_TOKEN
+  chatId: ""   # Default chat/channel id
+
+# Daily digest scheduler (requires GitHub API credentials)
+digest:
+  enabled: false
+  cron: "0 9 * * *"    # minute hour day month weekday
+  timezone: "UTC"
+  lookbackHours: 24
+  stalePrDays: 7
+  staleIssueDays: 14
+  maxItems: 10
+
+# Small web dashboard for repo health
+dashboard:
+  enabled: true
+  path: "/dashboard"
+
+# Repository routing. String value is backward-compatible (Discord webhook only).
+# Object value supports per-repo Discord/Telegram and feature flags.
+repositories:
+  "owner/repo":
+    discord: "https://discord.com/api/webhooks/xxx/yyy"
+    # telegram: "-1001234567890"   # overrides default telegram.chatId
+    digest: true
+    health: true
+
+  # Backward-compatible form:
+  # "owner/another-repo": "https://discord.com/api/webhooks/aaa/bbb"

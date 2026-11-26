@@ -1,0 +1,20 @@
+services:
+  webhook-server:
+    build: .
+    container_name: git-notifier
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      # Optional: provide secrets via env instead of config.yml
+      # - GITHUB_WEBHOOK_SECRET=
+      # - GITHUB_TOKEN=
+      # - GITHUB_APP_ID=
+      # - GITHUB_APP_INSTALLATION_ID=
+      # - GITHUB_APP_PRIVATE_KEY_PATH=/run/secrets/github_app.pem
+      # - TELEGRAM_BOT_TOKEN=
+      # - TELEGRAM_CHAT_ID=
+      - NODE_ENV=production
+    volumes:
+      # Mount configuration file from host into container
+      - ./config.yml:/usr/src/app/config.yml:ro

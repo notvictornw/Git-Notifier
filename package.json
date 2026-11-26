@@ -1,0 +1,54 @@
+{
+  "name": "git-notifier",
+  "version": "1.0.0",
+  "description": "GitHub webhook gateway + GitHub API enrichment + PR/issue digest bot + repo health dashboard for Discord/Telegram.",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/notvictornw/Git-Notifier.git"
+  },
+  "bugs": {
+    "url": "https://github.com/notvictornw/Git-Notifier/issues"
+  },
+  "homepage": "https://github.com/notvictornw/Git-Notifier#readme",
+  "main": "index.js",
+  "bin": {
+    "git-notifier": "./src/cli.js"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "build:worker": "esbuild worker/index.js --bundle --format=esm --platform=browser --target=es2022 --outfile=dist/worker.js",
+    "check": "node --check index.js && node --check src/app.js && node --check src/cli.js",
+    "test": "node --test --test-isolation=none",
+    "health": "node src/cli.js health",
+    "digest": "node src/cli.js digest",
+    "digest:send": "node src/cli.js digest --send"
+  },
+  "keywords": [
+    "github",
+    "discord",
+    "telegram",
+    "webhook",
+    "github-app",
+    "digest",
+    "dashboard",
+    "express",
+    "node",
+    "integration"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2",
+    "helmet": "^7.1.0",
+    "yaml": "^2.4.5"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "nodemon": "^3.1.4"
+  }
+}

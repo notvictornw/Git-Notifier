@@ -1,57 +1,57 @@
 # Security Policy
 
-A seguran?a do Git-Notifier ? levada a s?rio. Se voc? encontrou uma vulnerabilidade, **n?o abra issue p?blica**.
+A segurança do Git-Notifier é levada a sério. Se você encontrou uma vulnerabilidade, **não abra issue pública**.
 
-## Vers?es suportadas
+## Versões suportadas
 
-| Vers?o | Suportada |
+| Versão | Suportada |
 | --- | --- |
-| `main` (?ltima) | ? |
-| Releases antigas | ? |
+| `main` (última) | ✅ |
+| Releases antigas | ❌ |
 
 ## Como reportar uma vulnerabilidade
 
 Use o canal privado do GitHub:
 
 - **Preferred:** [Private vulnerability reporting](https://github.com/notvictornw/Git-Notifier/security/advisories/new)
-- Se n?o conseguir usar o fluxo privado, abra um contato com o mantenedor pelo GitHub sem expor detalhes explor?veis publicamente.
+- Se não conseguir usar o fluxo privado, abra um contato com o mantenedor pelo GitHub sem expor detalhes exploráveis publicamente.
 
 ### O que incluir
 
-1. Descri??o clara da vulnerabilidade e impacto.
-2. Passos de reprodu??o ou prova de conceito (PoC).
+1. Descrição clara da vulnerabilidade e impacto.
+2. Passos de reprodução ou prova de conceito (PoC).
 3. Componente afetado (webhook, assinatura HMAC, API GitHub, dashboard, CLI, Docker, worker etc.).
-4. Vers?o/commit afetado.
-5. Mitiga??o sugerida, se houver.
+4. Versão/commit afetado.
+5. Mitigação sugerida, se houver.
 
 ### O que esperar
 
-- **Confirma??o inicial:** at? 72 horas.
-- **Triagem:** avalia??o de severidade/impacto e plano de corre??o.
-- **Corre??o:** patch e release conforme criticidade.
-- **Divulga??o:** coordenada ap?s corre??o dispon?vel, quando aplic?vel.
+- **Confirmação inicial:** até 72 horas.
+- **Triagem:** avaliação de severidade/impacto e plano de correção.
+- **Correção:** patch e release conforme criticidade.
+- **Divulgação:** coordenada após correção disponível, quando aplicável.
 
 ## Escopo
 
 Em escopo (exemplos):
 
-- Bypass de valida??o de assinatura HMAC do webhook.
-- Exposi??o de segredos/tokens por logs, endpoints, dashboard ou erros.
+- Bypass de validação de assinatura HMAC do webhook.
+- Exposição de segredos/tokens por logs, endpoints, dashboard ou erros.
 - SSRF, injection, path traversal, auth bypass, RCE.
-- Vulnerabilidades em depend?ncias com impacto real no projeto.
-- Falhas que permitam spoofing de eventos GitHub ou envio indevido de notifica??es.
+- Vulnerabilidades em dependências com impacto real no projeto.
+- Falhas que permitam spoofing de eventos GitHub ou envio indevido de notificações.
 
 Fora de escopo (exemplos):
 
-- Relat?rios sem impacto de seguran?a demonstr?vel.
-- Spam, engenharia social, ataques f?sicos.
-- Vulnerabilidades apenas em servi?os de terceiros fora do controle do repo.
-- Segredos expostos por usu?rios em forks/configura??es privadas pr?prias.
+- Relatórios sem impacto de segurança demonstrável.
+- Spam, engenharia social, ataques físicos.
+- Vulnerabilidades apenas em serviços de terceiros fora do controle do repo.
+- Segredos expostos por usuários em forks/configurações privadas próprias.
 
-## Boas pr?ticas operacionais
+## Boas práticas operacionais
 
-- `config.yml` cont?m segredos e **n?o deve ser commitado** (j? est? no `.gitignore`).
+- `config.yml` contém segredos e **não deve ser commitado** (já está no `.gitignore`).
 - Use `config.yml.example` como base.
 - Rotacione imediatamente: GitHub webhook secret, PAT/App private key, Discord webhooks, Telegram bot token.
-- Use HTTPS no endpoint p?blico.
-- Mantenha depend?ncias atualizadas; alertas do Dependabot devem ser tratados com prioridade.
+- Use HTTPS no endpoint público.
+- Mantenha dependências atualizadas; alertas do Dependabot devem ser tratados com prioridade.

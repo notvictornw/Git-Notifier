@@ -1,38 +1,12 @@
-import discordService from './discord.js';
-import { isTelegramConfigured, sendMessage, escapeHtml } from './telegram.js';
 import config from '../config/config.js';
 import logger from '../utilities/logger.js';
+import { escapeHtml } from './telegram.js';
+import { createAdapters } from '../adapters/index.js';
+import { routeNotification } from './rules.js';
 
-/**
- * Unified notifier: sends to Discord and/or Telegram based on repo config.
- * repoConfig: { discord, telegram } or resolved from config.repositories
- */
-export async function notify(repoFullName, { embeds = [], text = '', telegramText = '' } = {}) {
-  const key = String(repoFullName || '').toLowerCase();
-  const repoCfg = config.repositories[key] || {};
+const adapters = createAdapters();
 
-  const tasks = [];
-
-  if (repoCfg.discord && embeds.length > 0) {
-    tasks.push(Promise.resolve().then(() => discordService.send(repoCfg.discord, embeds)).catch((e) => {
-      logger.error(`Discord notify failed for ${repoFullName}: ${e.message}`);
-    }));
-  }
-
-  const tgChat = repoCfg.telegram || config.telegram?.chatId;
-  if (isTelegramConfigured() && tgChat) {
-    const body = telegramText || text || embedsToTelegramText(embeds, repoFullName);
-    if (body) {
-      tasks.push(sendMessage({ chatId: tgChat, text: body }).catch((e) => {
-        logger.error(`Telegram notify failed for ${repoFullName}: ${e.message}`);
-      }));
-    }
-  }
-
-  await Promise.allSettled(tasks);
-}
-
-function embedsToTelegramText(embeds, repoFullName) {
+export function embedsToTelegramText(embeds, repoFullName) {
   if (!embeds || !embeds.length) return '';
   const lines = [];
   for (const e of embeds.slice(0, 5)) {
@@ -49,4 +23,32 @@ function stripEmoji(s = '') {
   return String(s).replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '').trim();
 }
 
-export default { notify };
+export async function notify(repoFullName, { event = 'generic', embeds = [], text = '', telegramText = '', payload = null } = {}) {
+  const key = String(repoFullName || '').toLowerCase();
+  const repoCfg = config.repositories[key] || { name: key };
+  const routed = routeNotification({ repoCfg, event, payload, embeds, text, telegramText, config });
+
+  if (routed.suppressed) {
+    logger.info(`Notification suppressed for ${repoFullName} event=${event} reason=${routed.reason}`);
+    return { ok: true, suppressed: true, reason: routed.reason };
+  }
+
+  const baseText = routed.telegramText || routed.text || embedsToTelegramText(routed.embeds, repoFullName);
+  const results = [];
+  for (const adapter of adapters) {
+    const ctx = {
+      repoCfg: routed.repoCfg,
+      config,
+      event,
+      embeds: routed.embeds,
+      text: routed.text,
+      telegramText: baseText,
+    };
+    const result = await Promise.resolve(adapter.send(ctx)).catch((err) => ({ ok: false, error: err.message }));
+    results.push({ adapter: adapter.name, ...result });
+  }
+
+  return { ok: results.some((r) => r.ok), results };
+}
+
+export default { notify, embedsToTelegramText };

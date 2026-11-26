@@ -13,6 +13,11 @@ async function buildEnrichment(event, payload) {
     if (event === 'pull_request') return await enrich.enrichPullRequest(payload);
     if (event === 'issues') return await enrich.enrichIssue(payload);
     if (event === 'push') return await enrich.enrichPush(payload);
+    if (event === 'pull_request_review') return await enrich.enrichPullRequest(payload);
+    if (event === 'pull_request_review_comment') return await enrich.enrichPullRequest(payload);
+    if (event === 'issue_comment') return await enrich.enrichIssue(payload);
+    if (event === 'check_run') return await enrich.enrichCheck(payload);
+    if (event === 'check_suite') return await enrich.enrichCheck(payload);
   } catch (err) {
     logger.warn(`Enrichment error for ${event}: ${err.message}`);
   }
@@ -58,7 +63,7 @@ router.post('/github', verifySignature, async (req, res) => {
 
     if (embeds && embeds.length > 0) {
       // Fire-and-forget notification to Discord/Telegram
-      Promise.resolve(notifier.notify(repoName, { embeds })).catch((err) => {
+      Promise.resolve(notifier.notify(repoName, { event, embeds, payload })).catch((err) => {
         logger.error(`Notifier error for ${repoName}: ${err.message}`);
       });
       logger.info(`Queued ${event} notification for repository: ${repoName}${enriched ? ' (enriched)' : ''}`);

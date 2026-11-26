@@ -6,23 +6,31 @@ O Git Notifier formata eventos GitHub em embeds Discord (e fallback texto para T
 
 | Evento | Handler | Enriquecimento API | Notas |
 |---|---:|:---:|---|
-| `ping` | `ping.js` | não | validação inicial do webhook |
-| `push` | `push.js` | sim | branch, commits, checks do HEAD |
-| `pull_request` | `pull_request.js` | sim | diff, reviewers, labels, mergeable, checks |
-| `issues` | `issues.js` | sim | labels, assignees, milestone, comments |
-| `issue_comment` | `issue_comment.js` | não | comentário em issue/PR |
-| `commit_comment` | `commit_comment.js` | não | comentário em commit |
-| `release` | `release.js` | não | published/prerelease/draft |
-| `create` | `create.js` | não | branch/tag |
-| `delete` | `delete.js` | não | branch/tag |
-| `fork` | `fork.js` | não | fork criado |
-| `watch` | `watch.js` | não | star/watch |
-| `discussion` | `discussion.js` | não | discussões |
-| `discussion_comment` | `discussion_comment.js` | não | comentários em discussão |
-| `workflow_run` | `workflow_run.js` | não | status/conclusion de workflow |
-| `workflow_job` | `workflow_job.js` | não | status/conclusion de job |
-| `deployment` | `deployment.js` | não | deploy criado |
-| `deployment_status` | `deployment_status.js` | não | status de deploy |
+| ping | ping.js | não | validação inicial do webhook |
+| push | push.js | sim | branch, commits, checks do HEAD |
+| pull_request | pull_request.js | sim | diff, reviewers, labels, mergeable, checks |
+| pull_request_review | pull_request_review.js | sim | review state/body, contexto de checks do PR |
+| pull_request_review_comment | pull_request_review_comment.js | sim | comentário de review em arquivo/linha |
+| issues | issues.js | sim | labels, assignees, milestone, comments |
+| issue_comment | issue_comment.js | sim | comentário em issue/PR com contexto da issue |
+| commit_comment | commit_comment.js | não | comentário em commit |
+| 
+elease | 
+elease.js | não | published/prerelease/draft |
+| create | create.js | não | branch/tag |
+| delete | delete.js | não | branch/tag |
+| ork | ork.js | não | fork criado |
+| watch | watch.js | não | star/watch |
+| discussion | discussion.js | não | discussões |
+| discussion_comment | discussion_comment.js | não | comentários em discussão |
+| workflow_run | workflow_run.js | não | status/conclusion de workflow |
+| workflow_job | workflow_job.js | não | status/conclusion de job |
+| check_run | check_run.js | sim | checks de app/CI por commit |
+| check_suite | check_suite.js | sim | suíte de checks por commit/branch |
+| dependabot_alert | dependabot_alert.js | não | alertas de vulnerabilidade Dependabot |
+| secret_scanning_alert | secret_scanning_alert.js | não | alertas de secret scanning |
+| deployment | deployment.js | não | deploy criado |
+| deployment_status | deployment_status.js | não | status de deploy |
 
 ## Como adicionar um evento
 

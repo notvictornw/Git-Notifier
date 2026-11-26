@@ -53,13 +53,15 @@ function normalizeRepoConfig(repo, value) {
     return null;
   }
 
+  const notifications = value.notifications && typeof value.notifications === 'object' ? value.notifications : {};
   return {
     name,
     discord,
     telegram,
     digest: asBool(value.digest, true),
     health: asBool(value.health, true),
-    labels: Array.isArray(value.labels) ? value.labels.map(asString).filter(Boolean) : []
+    labels: Array.isArray(value.labels) ? value.labels.map(asString).filter(Boolean) : [],
+    notifications
   };
 }
 
@@ -141,6 +143,8 @@ try {
     path: asString(parsed.dashboard?.path || '/dashboard')
   };
 
+  const notifications = parsed.notifications && typeof parsed.notifications === 'object' ? parsed.notifications : {};
+
   config = {
     server: { port },
     github: {
@@ -153,6 +157,7 @@ try {
     telegram: { botToken: telegramToken, chatId: telegramChatId },
     digest,
     dashboard,
+    notifications,
     repositories
   };
 

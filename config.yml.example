@@ -38,6 +38,27 @@ dashboard:
   enabled: true
   path: "/dashboard"
 
+# Global notification rules (can be overridden per repository in repositories.<repo>.notifications)
+notifications:
+  # only: [pull_request, issues, dependabot_alert]
+  # ignore: [watch, fork]
+  # severities: [warning, critical]
+  quietHours:
+    enabled: false
+    start: "22:00"
+    end: "08:00"
+    timezone: "UTC"
+  mentions:
+    discord:
+      critical: ["@here"]
+    telegram:
+      critical: ["@oncall"]
+  channels:
+    # critical:
+    #   discord: "https://discord.com/api/webhooks/xxx/critical"
+    # dependabot_alert:
+    #   telegram: "-1001234567890"
+
 # Repository routing. String value is backward-compatible (Discord webhook only).
 # Object value supports per-repo Discord/Telegram and feature flags.
 repositories:
@@ -46,6 +67,9 @@ repositories:
     # telegram: "-1001234567890"   # overrides default telegram.chatId
     digest: true
     health: true
+    notifications:
+      # ignore: [push]
+      # mentions: { discord: { critical: ["@here"] } }
 
   # Backward-compatible form:
   # "owner/another-repo": "https://discord.com/api/webhooks/aaa/bbb"

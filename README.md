@@ -54,8 +54,9 @@ Scheduler/CLI/Dashboard (pull)
 - Verificação HMAC SHA-256 (`X-Hub-Signature-256`) com raw body.
 - Roteamento por repositório com compatibilidade retroativa:
   - legado: `"owner/repo": "https://discord..."`
-  - novo: `"owner/repo": { discord, telegram, digest, health }`
+  - novo: `"owner/repo": { discord, telegram, digest, health, notifications }`
 - Fila por webhook Discord com retry para `429/5xx`.
+- Cobertura de eventos: PR reviews/comentários de review, check run/suite, Dependabot/secret scanning alerts, além dos eventos base.
 
 ### 2) Enriquecimento com GitHub API
 Quando credenciais GitHub estão configuradas, eventos selecionados ganham contexto extra:
@@ -86,7 +87,13 @@ Painel web em `/dashboard` + APIs JSON:
 - failing/recent workflow runs
 - status da API/rate limit
 
-### 5) CLI
+### 5) Regras de notificação e adapters
+
+- **Rules engine leve**: `notifications` global/repo com `only`, `ignore`, `severities`, `quietHours`, `mentions` e `channels` por evento/severidade.
+- **Mentions**: Discord (`@here`, role/user IDs formatados) e Telegram (texto/mention) por severidade/canal.
+- **Adapters de saída**: arquitetura por adapter (`src/adapters/*`) com Discord e Telegram hoje; base pronta para Slack/Teams/webhook genérico.
+
+### 6) CLI
 
 ```bash
 node src/cli.js repos

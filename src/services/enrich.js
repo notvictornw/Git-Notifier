@@ -117,8 +117,28 @@ export async function enrichPush(payload) {
   }
 }
 
+export async function enrichCheck(payload) {
+  if (!github.isGitHubApiConfigured()) return null;
+  const repo = payload.repository?.full_name;
+  const sha = payload.check_run?.head_sha || payload.check_suite?.head_sha;
+  if (!repo || !sha) return null;
+  const { owner, repo: name } = github.splitRepo(repo);
+  const key = `check:${repo}:${sha}`;
+  const cached = getCache(key);
+  if (cached) return cached;
+  try {
+    const checks = await github.getCheckRunsForRef(owner, name, sha);
+    const enriched = { ci: summarizeCheckRuns(checks), sha };
+    setCache(key, enriched);
+    return enriched;
+  } catch (err) {
+    logger.warn(`Check enrichment failed for ${repo}@${sha.slice(0, 7)}: ${err.message}`);
+    return null;
+  }
+}
+
 export function clearEnrichmentCache() {
   cache.clear();
 }
 
-export default { enrichPullRequest, enrichIssue, enrichPush, clearEnrichmentCache };
+export default { enrichPullRequest, enrichIssue, enrichPush, enrichCheck, clearEnrichmentCache };

@@ -6,6 +6,7 @@ services:
     ports:
       - "3000:3000"
     environment:
+      - NODE_ENV=production
       # Optional: provide secrets via env instead of config.yml
       # - GITHUB_WEBHOOK_SECRET=
       # - GITHUB_TOKEN=
@@ -14,7 +15,13 @@ services:
       # - GITHUB_APP_PRIVATE_KEY_PATH=/run/secrets/github_app.pem
       # - TELEGRAM_BOT_TOKEN=
       # - TELEGRAM_CHAT_ID=
-      - NODE_ENV=production
+      # - CONFIG_YML_CONTENT=  # Full YAML config as a single env var (PaaS-friendly)
     volumes:
-      # Mount configuration file from host into container
+      # Mount configuration file from host into container (recommended for local/VPS)
       - ./config.yml:/usr/src/app/config.yml:ro
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s

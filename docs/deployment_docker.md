@@ -6,9 +6,11 @@
 git clone https://github.com/notvictornw/Git-Notifier.git
 cd Git-Notifier
 cp config.yml.example config.yml
-# editar config.yml
+# editar config.yml (github.secret + repositories.*.discord)
 docker compose up -d --build
 ```
+
+> Importante: crie `config.yml` antes do `docker compose up`. Se o arquivo não existir, o Docker pode criar um diretório no caminho do mount.
 
 Logs:
 
@@ -25,8 +27,8 @@ docker compose down
 ## Config/secrets
 
 - Monte `config.yml` como volume read-only (`./config.yml:/usr/src/app/config.yml:ro`).
-- Alternativamente passe env vars (`GITHUB_WEBHOOK_SECRET`, `GITHUB_TOKEN`, `TELEGRAM_*`, etc).
-- Não embuta segredos na imagem.
+- Alternativamente passe env vars (`GITHUB_WEBHOOK_SECRET`, `GITHUB_TOKEN`, `TELEGRAM_*`, etc) ou `CONFIG_YML_CONTENT`.
+- Não embuta segredos na imagem. `.env.example` lista as env vars suportadas.
 
 ## Build manual
 
@@ -41,7 +43,7 @@ No PowerShell use `${PWD}`; no bash `$(pwd)`.
 
 ## Healthcheck
 
-O container expõe `GET /`. Você pode adicionar healthcheck no compose:
+O `docker-compose.yml` já inclui healthcheck em `GET /`. Para build manual:
 
 ```yaml
 healthcheck:

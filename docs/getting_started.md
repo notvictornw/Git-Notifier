@@ -1,8 +1,22 @@
 # Getting Started
 
-Guia rápido para colocar o Git Notifier rodando localmente.
+Guia rápido para colocar o Git Notifier rodando.
 
-## 1) Clonar e instalar
+## Caminho plug-n-play (recomendado): Docker Compose
+
+```bash
+git clone https://github.com/notvictornw/Git-Notifier.git
+cd Git-Notifier
+cp config.yml.example config.yml
+# edite config.yml: github.secret + repositories.<owner/repo>.discord
+docker compose up -d --build
+```
+
+Valide: `curl http://localhost:3000/` e abra `/dashboard`. Exponha por HTTPS e aponte o webhook GitHub para `https://SEU-DOMINIO/github`.
+
+## Caminho local: Node.js
+
+### 1) Clonar e instalar
 
 ```bash
 git clone https://github.com/notvictornw/Git-Notifier.git
@@ -12,10 +26,11 @@ npm install
 
 Requisitos: Node.js `>= 22`.
 
-## 2) Criar configuração
+### 2) Criar configuração
 
 ```bash
-cp config.yml.example config.yml
+npm run setup
+# ou: cp config.yml.example config.yml
 ```
 
 Edite `config.yml`:
@@ -24,7 +39,7 @@ Edite `config.yml`:
 - opcional: `github.token` ou `github.app.*` para API/enriquecimento/digest/dashboard
 - opcional: `telegram.botToken/chatId`
 
-## 3) Rodar
+### 3) Rodar
 
 ```bash
 npm run dev

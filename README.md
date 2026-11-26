@@ -102,30 +102,65 @@ node src/cli.js digest [owner/repo] [--json]
 node src/cli.js digest [owner/repo] --send
 ```
 
-## Instalação
+## Início rápido (plug-n-play)
 
-### Requisitos
-- Node.js `>= 22`
-- npm
-- Um secret de webhook GitHub
-- Para recursos de API/digest/dashboard: token GitHub (PAT/fine-grained) ou GitHub App
+### Opção A: Docker Compose (recomendado)
 
-### Setup local
+Caminho completo: webhooks em tempo real + enriquecimento + regras + digest scheduler + dashboard + CLI.
+
+```bash
+git clone https://github.com/notvictornw/Git-Notifier.git
+cd Git-Notifier
+cp config.yml.example config.yml
+# edite config.yml: github.secret + repositories.<owner/repo>.discord
+docker compose up -d --build
+```
+
+Verifique:
+
+```bash
+curl http://localhost:3000/
+# dashboard: http://localhost:3000/dashboard
+```
+
+Depois exponha `:3000` por HTTPS (VPS/proxy/túnel) e configure o webhook GitHub para `https://SEU-DOMINIO/github` com o mesmo `github.secret`.
+
+> Se `config.yml` não existir, o Docker pode criar um diretório no lugar do mount. Rode `cp config.yml.example config.yml` (ou `npm run setup`) antes do `docker compose up`.
+
+### Opção B: Node local
 
 ```bash
 git clone https://github.com/notvictornw/Git-Notifier.git
 cd Git-Notifier
 npm install
-cp config.yml.example config.yml
+npm run setup          # cria config.yml se não existir
 # edite config.yml
 npm run dev
 ```
 
 Servidor padrão: `http://localhost:3000`.
 
+### Requisitos
+- Node.js `>= 22` (Opção B / CLI)
+- Docker + Docker Compose (Opção A)
+- Secret de webhook GitHub
+- Para API/digest/dashboard: token GitHub (PAT/fine-grained) ou GitHub App
+
 ## Configuração
 
-Arquivo: `config.yml` (ou `CONFIG_YML_CONTENT` com YAML completo). Exemplo: [`config.yml.example`](./config.yml.example).
+Arquivo: `config.yml` (ou `CONFIG_YML_CONTENT` com YAML completo). Exemplo: [`config.yml.example`](./config.yml.example). Variáveis de ambiente: [`.env.example`](./.env.example).
+
+Mínimo para receber webhooks no Discord:
+
+```yaml
+github:
+  secret: "change-me-webhook-secret"
+
+repositories:
+  "owner/repo": "https://discord.com/api/webhooks/xxx/yyy"
+```
+
+Config completa (API, Telegram, digest, regras):
 
 ```yaml
 server:
@@ -211,10 +246,12 @@ Checklist rápido:
 ## Docker
 
 ```bash
+cp config.yml.example config.yml   # primeira vez
 docker compose up -d --build
+docker compose logs -f
 ```
 
-O compose monta `config.yml` read-only e aceita env vars. Veja [`docs/deployment_docker.md`](./docs/deployment_docker.md).
+O compose monta `config.yml` read-only, aceita env vars e tem healthcheck em `/`. Veja [`docs/deployment_docker.md`](./docs/deployment_docker.md).
 
 ## Cloudflare Worker
 
@@ -229,6 +266,7 @@ Use Node/Express para API completa, dashboard e scheduler.
 ## Scripts
 
 ```bash
+npm run setup        # cria config.yml a partir do exemplo
 npm run dev          # desenvolvimento com nodemon
 npm start            # produção
 npm run check        # syntax check

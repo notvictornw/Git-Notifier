@@ -4,7 +4,8 @@
 
 ```bash
 npm install
-cp config.yml.example config.yml
+npm run setup          # cria config.yml se ausente
+# edite config.yml
 npm run dev
 ```
 

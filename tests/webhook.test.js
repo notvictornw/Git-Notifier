@@ -3,8 +3,18 @@ import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
 import express from 'express';
 import http from 'node:http';
-import config from '../src/config/config.js';
-import { verifySignature } from '../src/middleware/signature.js';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+
+const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'git-notifier-wh-'));
+const cfgPath = path.join(tmpDir, 'config.yml');
+fs.writeFileSync(cfgPath, `server:\n  port: 3000\ngithub:\n  secret: topsecret\nrepositories:\n  "owner/repo": "https://discord.com/api/webhooks/1/token"\n`, 'utf8');
+process.env.CONFIG_PATH = cfgPath;
+process.env.GITHUB_WEBHOOK_SECRET = 'topsecret';
+
+const { default: config } = await import('../src/config/config.js');
+const { verifySignature } = await import('../src/middleware/signature.js');
 
 function sign(body, secret) {
   return 'sha256=' + crypto.createHmac('sha256', secret).update(body).digest('hex');

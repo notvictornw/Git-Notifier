@@ -279,14 +279,6 @@ npm run build:worker
 - [Docker Deployment](./docs/deployment_docker.md)
 - [Troubleshooting](./docs/troubleshooting.md)
 
-## Seguran?a
-
-- `config.yml` ? ignorado pelo git; use `config.yml.example`.
-- N?o commite tokens, webhooks, secrets ou private keys.
-- Rotacione segredos se forem expostos.
-- Webhooks s?o validados por HMAC SHA-256.
-- Vulnerabilidades devem ser reportadas de forma privada: veja [SECURITY.md](./SECURITY.md).
-
 ## Contribuindo
 
 Veja [CONTRIBUTING.md](./CONTRIBUTING.md), [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) e [SUPPORT.md](./SUPPORT.md).

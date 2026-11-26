@@ -1,0 +1,51 @@
+name: Feature request
+description: Sugira uma melhoria ou nova funcionalidade
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Sugest?es s?o bem-vindas. Descreva o problema que a feature resolve, n?o s? a solu??o.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Antes de abrir
+      options:
+        - label: Procurei issues/PRs existentes e n?o encontrei duplicata.
+          required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema / motiva??o
+      description: Qual dor ou caso de uso essa feature resolve?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposta
+      description: Como voc? imagina a solu??o?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativas consideradas
+      description: Outras abordagens que voc? avaliou.
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Escopo / impacto
+      description: API, config, dashboard, CLI, worker, docs, seguran?a etc.
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Contexto adicional
+      description: Exemplos, refer?ncias, mockups.

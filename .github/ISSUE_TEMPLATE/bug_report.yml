@@ -1,0 +1,91 @@
+name: Bug report
+description: Reporte um bug ou comportamento inesperado
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por reportar. Preencha com o m?ximo de detalhe poss?vel para facilitar a reprodu??o.
+
+        ?? **N?o inclua segredos** (tokens, webhooks, private keys, config.yml real).
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Antes de abrir
+      options:
+        - label: Procurei issues existentes e n?o encontrei duplicata.
+          required: true
+        - label: Estou usando a vers?o mais recente da branch `main` ou a ?ltima release.
+          required: true
+        - label: Removi/redigi qualquer segredo dos logs e exemplos.
+          required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Descri??o do bug
+      description: O que aconteceu?
+      placeholder: Descreva o comportamento observado.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportamento esperado
+      description: O que deveria acontecer?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Passos para reproduzir
+      description: Passo a passo m?nimo para reproduzir.
+      placeholder: |
+        1. Configure ...
+        2. Envie webhook ...
+        3. Observe ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / sa?da relevante
+      description: Cole logs, stack traces ou respostas HTTP. Remova segredos.
+      render: shell
+
+  - type: input
+    id: version
+    attributes:
+      label: Vers?o / commit
+      placeholder: "ex.: main @ 8dbbea1"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: runtime
+    attributes:
+      label: Runtime
+      options:
+        - Node.js local
+        - Docker / Docker Compose
+        - Cloudflare Worker
+        - Outro
+    validations:
+      required: true
+
+  - type: input
+    id: node
+    attributes:
+      label: Vers?o do Node.js
+      placeholder: "ex.: 22.16.0"
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Contexto adicional
+      description: Configura??o relevante (sem segredos), screenshots, hip?teses.

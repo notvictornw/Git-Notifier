@@ -1,0 +1,9 @@
+# Default owners for everything in the repo
+* @notvictornw
+
+# Security-sensitive files
+/.github/ @notvictornw
+/SECURITY.md @notvictornw
+/src/middleware/signature.js @notvictornw
+/src/services/github.js @notvictornw
+/src/config/config.js @notvictornw

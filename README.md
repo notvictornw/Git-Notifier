@@ -236,24 +236,35 @@ npm run build:worker
 
 ```text
 .
-├── .github/workflows/ci.yml
-├── config.yml.example
-├── docs/
-├── src/
-│   ├── app.js
-│   ├── cli.js
-│   ├── config/
-│   ├── handlers/
-│   ├── middleware/
-│   ├── routes/
-│   ├── services/
-│   └── utilities/
-├── tests/
-├── worker/
-├── Dockerfile
-├── docker-compose.yml
-├── LICENSE
-└── README.md
+??? .github/
+?   ??? ISSUE_TEMPLATE/
+?   ?   ??? bug_report.yml
+?   ?   ??? config.yml
+?   ?   ??? feature_request.yml
+?   ??? workflows/ci.yml
+?   ??? CODEOWNERS
+?   ??? dependabot.yml
+?   ??? PULL_REQUEST_TEMPLATE.md
+??? docs/
+??? src/
+?   ??? app.js
+?   ??? cli.js
+?   ??? config/
+?   ??? handlers/
+?   ??? middleware/
+?   ??? routes/
+?   ??? services/
+?   ??? utilities/
+??? tests/
+??? worker/
+??? config.yml.example
+??? CONTRIBUTING.md
+??? Dockerfile
+??? docker-compose.yml
+??? LICENSE
+??? README.md
+??? SECURITY.md
+??? SUPPORT.md
 ```
 
 ## Documentação
@@ -268,18 +279,17 @@ npm run build:worker
 - [Docker Deployment](./docs/deployment_docker.md)
 - [Troubleshooting](./docs/troubleshooting.md)
 
-## Segurança
+## Seguran?a
 
-- `config.yml` é ignorado pelo git; use `config.yml.example`.
-- Não commite tokens, webhooks secrets, private keys.
+- `config.yml` ? ignorado pelo git; use `config.yml.example`.
+- N?o commite tokens, webhooks, secrets ou private keys.
 - Rotacione segredos se forem expostos.
-- Webhook sempre validado por HMAC SHA-256.
+- Webhooks s?o validados por HMAC SHA-256.
+- Vulnerabilidades devem ser reportadas de forma privada: veja [SECURITY.md](./SECURITY.md).
 
 ## Contribuindo
 
-1. Abra issue/PR com contexto claro.
-2. Rode `npm run check` e `npm test`.
-3. Não inclua segredos em commits, logs ou screenshots.
+Veja [CONTRIBUTING.md](./CONTRIBUTING.md), [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) e [SUPPORT.md](./SUPPORT.md).
 
 ## Licença
 

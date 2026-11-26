@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Relatar vulnerabilidade de seguran?a (privado)
+    url: https://github.com/notvictornw/Git-Notifier/security/advisories/new
+    about: Use o reporte privado do GitHub para vulnerabilidades. N?o abra issue p?blica.
+  - name: Documenta??o
+    url: https://github.com/notvictornw/Git-Notifier#readme
+    about: Consulte o README e docs antes de abrir uma issue.

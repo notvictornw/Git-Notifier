@@ -9,3 +9,5 @@ dist/
 config.yml
 *.pem
 *.key
+
+!.github/ISSUE_TEMPLATE/config.yml
